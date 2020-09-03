@@ -66,6 +66,6 @@ app.get("/imdb-data/", async (req, res) => {
   res.json(dataJSON);
 });
 
-app.listen(3001, () => {
-  console.log("3001");
+app.listen(process.env.PORT, () => {
+  console.log("the port is " + process.env.PORT);
 });
