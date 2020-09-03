@@ -5,9 +5,6 @@ const fetch = require("node-fetch");
 
 const app = express();
 
-const TMDB_API_KEY = "46f1c745c07d319a2d5fce90c66ab2c9";
-const OMDB_API_KEY = "543c445e";
-
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -19,7 +16,9 @@ app.post("/getmovies", async (req, res) => {
   const { quary, page } = req.body;
   try {
     const movieList = await fetch(
-      `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&language=en-US&query=${encodeURIComponent(
+      `https://api.themoviedb.org/3/search/movie?api_key=${
+        process.env.TMDB_API_KEY
+      }&language=en-US&query=${encodeURIComponent(
         quary
       )}&page=${page}&include_adult=false`
     );
@@ -32,9 +31,6 @@ app.post("/getmovies", async (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  for (let i = 0; i <= 20; i++) {
-    console.log(process.env.TMDB_API_KEY);
-  }
   res.send("it is working!");
 });
 
@@ -55,7 +51,7 @@ app.get("/", (req, res) => {
  */
 app.get("/tmdb-data/", async (req, res) => {
   const movie = await fetch(
-    `https://api.themoviedb.org/3/movie/${req.query.id}?api_key=${TMDB_API_KEY}&language=en-US`
+    `https://api.themoviedb.org/3/movie/${req.query.id}?api_key=${process.env.TMDB_API_KEY}&language=en-US`
   );
   const movieJSON = await movie.json();
   res.json(movieJSON);
@@ -63,7 +59,7 @@ app.get("/tmdb-data/", async (req, res) => {
 
 app.get("/imdb-data/", async (req, res) => {
   const data = await fetch(
-    `http://www.omdbapi.com/?i=${req.query.id}&apikey=${OMDB_API_KEY}`
+    `http://www.omdbapi.com/?i=${req.query.id}&apikey=${process.env.OMDB_API_KEY}`
   );
   const dataJSON = await data.json();
   res.json(dataJSON);
