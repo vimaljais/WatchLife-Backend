@@ -32,6 +32,9 @@ app.post("/getmovies", async (req, res) => {
 });
 
 app.get("/", (req, res) => {
+  for (let i = 0; i <= 20; i++) {
+    console.log(process.env.TMDB_API_KEY);
+  }
   res.send("it is working!");
 });
 
@@ -68,4 +71,7 @@ app.get("/imdb-data/", async (req, res) => {
 
 app.listen(process.env.PORT, () => {
   console.log("the port is " + process.env.PORT);
+  for (let i = 0; i <= 20; i++) {
+    console.log(process.env.TMDB_API_KEY);
+  }
 });
