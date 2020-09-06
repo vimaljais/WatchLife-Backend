@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 const empty = {
   results: [],
 };
-
+//to fetch movie list
 app.get("/getmovies", async (req, res) => {
   const quary = req.query.qs;
   const page = req.query.page;
@@ -30,12 +30,12 @@ app.get("/getmovies", async (req, res) => {
     res.status(500).send("Error obtaining results");
   }
 });
-
+// to wake up the backend on frontend call
 app.get("/", (req, res) => {
   console.log("waking up");
   res.send("it is working!");
 });
-
+//to chceck whether the movie is available on gdrive
 app.get("/getPlayer/", (req, res) => {
   fetch(`https://api.gdriveplayer.us/v1/imdb/${req.query.imdb}`)
     .then((response) => response.json())
@@ -48,7 +48,7 @@ app.get("/getPlayer/", (req, res) => {
     })
     .catch((err) => console.log("error"));
 });
-
+//to get tmdb-data
 app.get("/tmdb-data/", async (req, res) => {
   const movie = await fetch(
     `https://api.themoviedb.org/3/movie/${req.query.id}?api_key=${process.env.TMDB_API_KEY}&language=en-US`
@@ -56,7 +56,7 @@ app.get("/tmdb-data/", async (req, res) => {
   const movieJSON = await movie.json();
   res.json(movieJSON);
 });
-
+//to get imdb-data
 app.get("/imdb-data/", async (req, res) => {
   const data = await fetch(
     `http://www.omdbapi.com/?i=${req.query.id}&apikey=${process.env.OMDB_API_KEY}`
