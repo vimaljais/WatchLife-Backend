@@ -12,8 +12,9 @@ const empty = {
   results: [],
 };
 
-app.post("/getmovies", async (req, res) => {
-  const { quary, page } = req.body;
+app.get("/getmovies", async (req, res) => {
+  const quary = req.query.qs;
+  const page = req.query.page;
   try {
     const movieList = await fetch(
       `https://api.themoviedb.org/3/search/movie?api_key=${
@@ -31,24 +32,23 @@ app.post("/getmovies", async (req, res) => {
 });
 
 app.get("/", (req, res) => {
+  console.log("waking up");
   res.send("it is working!");
 });
 
-/* app.get("/getPlayer/", (req, res) => {
-  console.log(req.query.imdb);
+app.get("/getPlayer/", (req, res) => {
   fetch(`https://api.gdriveplayer.us/v1/imdb/${req.query.imdb}`)
     .then((response) => response.json())
     .then((response) => {
-      console.log(response);
       if (response.player_url) {
-        res.json(response.player_url);
+        res.json(response);
       } else {
-        res.status(400).send({ message: "Video not found" });
+        res.send({ message: "Video not found" });
       }
     })
     .catch((err) => console.log("error"));
 });
- */
+
 app.get("/tmdb-data/", async (req, res) => {
   const movie = await fetch(
     `https://api.themoviedb.org/3/movie/${req.query.id}?api_key=${process.env.TMDB_API_KEY}&language=en-US`
